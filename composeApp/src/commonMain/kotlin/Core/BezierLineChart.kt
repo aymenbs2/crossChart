@@ -38,7 +38,6 @@ fun BezierLineChart(
     axisColor: Color = Color.Transparent,
     indicatorColor: Color = LitghtGrayColor,
     textStyle: TextStyle = TextStyle(color = LitghtGrayColor, fontSize = 12.sp),
-    padding: Dp = 20.dp
 ) {
     val maxValue = yData.maxOfOrNull { it } ?: 0f
     val minValue = yData.minOfOrNull { it } ?: 0f
@@ -53,12 +52,9 @@ fun BezierLineChart(
 
     }
 
-
-
-    Canvas(modifier = modifier.padding(padding)) {
+    Canvas(modifier = modifier) {
         val yStep = size.height / (yData.size - 1)
         val xStep = size.width / (yData.size - 1)
-
         // Draw y-axis indicators
         for (i in yData.indices) {
             val y = size.height - i * yStep
@@ -73,7 +69,7 @@ fun BezierLineChart(
                 color = indicatorColor,
                 start = Offset(if(withGrid) 0f else 5.dp.toPx(), y),
                 end = Offset(if (withGrid) size.width else 10.dp.toPx(), y),
-                strokeWidth = 1f
+                strokeWidth =  1.dp.toPx()
             )
         }
 
@@ -91,7 +87,7 @@ fun BezierLineChart(
                 color = indicatorColor,
                 start = Offset(x, if(withGrid) 0f else size.height - 5.dp.toPx()),
                 end = Offset(x, if(withGrid) size.height else size.height + 10f),
-                strokeWidth = 1.5f
+                strokeWidth = 1.dp.toPx()
             )
         }
 
@@ -110,9 +106,7 @@ fun BezierLineChart(
             end = Offset(size.width, size.height),
             strokeWidth = strokeWidth
         )
-
         if (yData.isEmpty()) return@Canvas
-
         val path = Path().apply {
             moveTo(0.dp.toPx(), size.height - (xData[0].y - minValue) * size.height / range)
             for (i in 1 until yData.size) {
